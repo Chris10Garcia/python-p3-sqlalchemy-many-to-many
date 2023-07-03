@@ -1,8 +1,8 @@
-"""Had to redo user, game, review tables
+"""user, game, review table. add naming convention
 
-Revision ID: e9a45f6e201b
+Revision ID: 2c1c9ddc9fda
 Revises: 3c16dffa4b50
-Create Date: 2023-07-03 13:54:15.862875
+Create Date: 2023-07-03 14:15:02.956479
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'e9a45f6e201b'
+revision = '2c1c9ddc9fda'
 down_revision = '3c16dffa4b50'
 branch_labels = None
 depends_on = None
@@ -36,8 +36,8 @@ def upgrade() -> None:
     op.create_table('game_users',
     sa.Column('game_id', sa.Integer(), nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
-    sa.ForeignKeyConstraint(['game_id'], ['games.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['game_id'], ['games.id'], name=op.f('fk_game_users_game_id_games')),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], name=op.f('fk_game_users_user_id_users')),
     sa.PrimaryKeyConstraint('game_id', 'user_id')
     )
     op.create_table('reviews',
@@ -46,8 +46,8 @@ def upgrade() -> None:
     sa.Column('comment', sa.String(), nullable=True),
     sa.Column('game_id', sa.Integer(), nullable=True),
     sa.Column('user_id', sa.Integer(), nullable=True),
-    sa.ForeignKeyConstraint(['game_id'], ['games.id'], ),
-    sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
+    sa.ForeignKeyConstraint(['game_id'], ['games.id'], name=op.f('fk_reviews_game_id_games')),
+    sa.ForeignKeyConstraint(['user_id'], ['users.id'], name=op.f('fk_reviews_user_id_users')),
     sa.PrimaryKeyConstraint('id')
     )
     # ### end Alembic commands ###
